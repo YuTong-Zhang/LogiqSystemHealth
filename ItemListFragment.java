@@ -16,14 +16,14 @@ import java.util.List;
 
 public class ItemListFragment extends Fragment {
 
-    private static final String PAGE_NUM_KEY = "page_num_key";
+    private static final String ITEMS_LIST_KEY = "items-list-key";
     private int mPageNum = -1;
 
     private DummyContent dummyContent;
-    private static String[] dummyItems = {};
+
     public static ItemListFragment newInstance(String[] items) {
-        dummyItems = items;
         Bundle args = new Bundle();
+        args.putStringArray(ITEMS_LIST_KEY, items);
         ItemListFragment fragment = new ItemListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -33,8 +33,11 @@ public class ItemListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dummyContent = new DummyContent();
-        for (String item:dummyItems){
-            dummyContent.addItem(item, "Sample Summary Details for: " + item);
+        if(getArguments() != null) {
+            String[] bundleStringArray = getArguments().getStringArray(ITEMS_LIST_KEY);
+            for (String item : bundleStringArray) {
+                dummyContent.addItem(item, "Sample Summary Details for: " + item);
+            }
         }
     }
 
@@ -60,10 +63,7 @@ public class ItemListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 DummyContent.DummyItem item = (DummyContent.DummyItem) view.getTag();
-                Bundle arguments = new Bundle();
-                arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.id);
-                ItemDetailFragment fragment = new ItemDetailFragment();
-                fragment.setArguments(arguments);
+                ItemDetailFragment fragment = ItemDetailFragment.newInstance(item);
                 mParentActivity.getSupportFragmentManager().beginTransaction()
                         .replace(R.id.item_detail_container, fragment)
                         .commit();

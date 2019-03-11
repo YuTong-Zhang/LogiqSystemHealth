@@ -1,5 +1,6 @@
 package com.example.ultrasound.dummy;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,12 +17,12 @@ public class DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    private static final ArrayList<DummyItem> items = new ArrayList<>();
+    private ArrayList<DummyItem> items = new ArrayList<>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, DummyItem> ITEM_MAP = new HashMap<>();
+    private Map<String, DummyItem> item_map = new HashMap<>();
 
 
     public DummyContent(){
@@ -30,6 +31,10 @@ public class DummyContent {
     public void addItem(String id, String details){
         DummyItem item = new DummyItem(id, details);
         items.add(item);
+    }
+
+    public Map<String, DummyItem> getMap(){
+        return item_map;
     }
 
     public ArrayList<DummyItem> getList(){

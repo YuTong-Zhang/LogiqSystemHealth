@@ -24,16 +24,22 @@ public class ItemDetailFragment extends Fragment {
      */
     public static final String ARG_ITEM_ID = "item_id";
 
+    public static final String ARG_ITEM_DETAIL = "item_detail";
+
+
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private String item_id;
+    private String item_details;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public ItemDetailFragment() {
+    public static ItemDetailFragment newInstance(DummyContent.DummyItem item) {
+        Bundle args = new Bundle();
+        args.putString(ARG_ITEM_ID, item.id);
+        args.putString(ARG_ITEM_DETAIL, item.details);
+        ItemDetailFragment fragment = new ItemDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -44,7 +50,9 @@ public class ItemDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+
+            item_id = getArguments().getString(ARG_ITEM_ID);
+            item_details = getArguments().getString(ARG_ITEM_ID);
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
@@ -60,8 +68,8 @@ public class ItemDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.details);
+        if (item_details != null) {
+            ((TextView) rootView.findViewById(R.id.item_detail)).setText(item_details);
         }
 
         return rootView;
